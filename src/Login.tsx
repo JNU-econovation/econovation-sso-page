@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React from 'react';
 import useInput from './useInput';
-
+import './Login.css';
 
 const Login = () => {
     const email = useInput();
@@ -22,10 +22,12 @@ const Login = () => {
         });
     }
 
-    return <form onSubmit={onSubmit} className='login-container'>
+    return <form onSubmit={onSubmit} className='login-form'>
+        <h1>에코노베이션 로그인</h1>
         <input type="text" value={email.value} onChange={email.onChange} placeholder="아이디(example@econovation.kr)"/>
         <input type="password" value={passwd.value} onChange={passwd.onChange} placeholder="비밀번호"/>
         <input type="submit" value="Login"/>
+        <input type="button" value="회원가입" />
     </form>
 }
 
