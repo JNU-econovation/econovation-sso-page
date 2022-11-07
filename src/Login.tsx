@@ -11,14 +11,19 @@ const Login = () => {
         e.preventDefault();
         axios({
             method: 'post',
-            url: process.env.REACT_APP_SERVER_BASE_URL + "/api/account/login/process",
+            baseURL: process.env.REACT_APP_SERVER_BASE_URL,
+            url: "/api/account/login/process",
             headers: {
-                
+                'Access-Control-Allow-Origin': '*'
             },
             data: {
                 userEmail: email.value,
                 password: passwd.value,
             }
+        }).then((response) => {
+            
+        }).catch((error) => {
+           
         });
     }
 
