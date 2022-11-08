@@ -1,29 +1,37 @@
 import axios from 'axios';
-import React from 'react';
+import React, { useState } from 'react';
 import useInput from './useInput';
 import './Login.css';
 
 const Login = () => {
     const email = useInput();
     const passwd = useInput();
+    const [errorMessage, setErrorMessage] = useState("");
     
     const onSubmit = (e:any) => {
         e.preventDefault();
+        if(!email.value || !passwd.value){
+            setErrorMessage("아이디나 비밀번호를 정확히 입력해주세요.");
+            return;
+        }
         axios({
             method: 'post',
             baseURL: process.env.REACT_APP_SERVER_BASE_URL,
             url: "/api/account/login/process",
             headers: {
-                'Access-Control-Allow-Origin': '*'
+                'access-control-allow-origin': '*'
             },
             data: {
                 userEmail: email.value,
                 password: passwd.value,
             }
         }).then((response) => {
-            
+            if(response.status !== 200){
+                setErrorMessage("아이디나 비밀번호를 다시 입력해주세요.");
+            }
         }).catch((error) => {
-           
+            // error.request.status 에 따른 로직
+            setErrorMessage(() => "로그인에 실패했습니다. 네트워크 환경을 확인해주세요.");
         });
     }
 
@@ -33,6 +41,7 @@ const Login = () => {
         <input type="password" value={passwd.value} onChange={passwd.onChange} placeholder="비밀번호"/>
         <input type="submit" value="Login"/>
         <input type="button" value="회원가입" />
+        <div className='error-message'>{errorMessage}</div>
     </form>
 }
 
