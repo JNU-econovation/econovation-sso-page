@@ -28,12 +28,13 @@ const Login = () => {
                 redirectUrl: redirectUrl
             }
         }).then((response) => {
-            if(response.status !== 200){
-                setErrorMessage("아이디나 비밀번호를 다시 입력해주세요.");
-            }
+            if(response.status === 200){
+                localStorage.setItem('accessToken', response.data.accessToken);
+                localStorage.setItem('refreshToken', response.data.refreshToken);
+                window.location.href = redirectUrl;
+            } 
             
         }).catch((error) => {
-            // error.request.status 에 따른 로직
             setErrorMessage(() => "로그인에 실패했습니다. 네트워크 환경을 확인해주세요.");
         });
     }
@@ -41,6 +42,7 @@ const Login = () => {
     useEffect(() => {
         setRedirectUrl(() => localStorage.getItem('redirectUrl') ?? 'https://econovation.kr');
     }, []);
+
     return <form onSubmit={onSubmit} className='login-form'>
         <h1>에코노베이션 로그인</h1>
         <input type="text" value={email.value} onChange={email.onChange} placeholder="아이디(example@econovation.kr)"/>
