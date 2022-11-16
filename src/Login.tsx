@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import useInput from './useInput';
 import './Login.css';
+import econoLogo from './images/econo_logo.png';
 
 const Login = () => {
     const email = useInput();
@@ -43,14 +44,17 @@ const Login = () => {
         setRedirectUrl(() => localStorage.getItem('redirectUrl') ?? 'https://econovation.kr');
     }, []);
 
-    return <form onSubmit={onSubmit} className='login-form'>
-        <h1>에코노베이션 로그인</h1>
-        <input type="text" value={email.value} onChange={email.onChange} placeholder="아이디(example@econovation.kr)"/>
-        <input type="password" value={passwd.value} onChange={passwd.onChange} placeholder="비밀번호"/>
-        <input type="submit" value="Login"/>
-        <input type="button" value="회원가입" />
-        <div className='error-message'>{errorMessage}</div>
-    </form>
+    return <div className='card'>
+        <img className='logo' src={econoLogo} alt='logo'/>
+        <h2>Sign In</h2>
+        <form onSubmit={onSubmit} className='login-form'>
+            <input type="text" value={email.value} onChange={email.onChange} placeholder="아이디"/>
+            <input type="password" value={passwd.value} onChange={passwd.onChange} placeholder="비밀번호"/>
+            <input type="submit" value="Sign In"/>
+            <input type="button" value="회원가입" />
+            <div className='error-message'>{errorMessage}</div>
+        </form>
+    </div>
 }
 
 export default Login;
