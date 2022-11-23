@@ -101,7 +101,7 @@
     tarnsition: all 0.375s;
 }
 
-.login-form > input[type='submit']:hover{
+.login-form > button[type='submit']:hover{
     background: #000aff;
 }
 
