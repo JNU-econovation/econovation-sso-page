@@ -101,7 +101,16 @@
     tarnsition: all 0.375s;
 }
 
+.login-form > input[type='submit']:hover{
+    background: #000aff;
+}
+
+.login-form > input[type='button']:hover{
+    background: #000aff;
+}
+
 .error-message {
     color: red;
     font-size: 0.85rem;
 }
+
