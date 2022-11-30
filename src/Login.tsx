@@ -4,8 +4,10 @@ import useInput from './useInput';
 import './Login.css';
 import econoLogo from './images/econo_logo.png';
 import Spinner from './Spinner';
+import { useNavigate } from 'react-router';
 
 const Login = () => {
+    const navigate = useNavigate();
     const email = useInput();
     const passwd = useInput();
     const [errorMessage, setErrorMessage] = useState("");
@@ -46,6 +48,10 @@ const Login = () => {
         });
     }
 
+    const onSignUpClick = () => {
+        navigate('/signup');
+    }
+
     useEffect(() => {
         setRedirectUrl(() => localStorage.getItem('redirectUrl') ?? 'https://econovation.kr');
     }, []);
@@ -57,7 +63,7 @@ const Login = () => {
             <input type="text" value={email.value} onChange={email.onChange} placeholder="아이디"/>
             <input type="password" value={passwd.value} onChange={passwd.onChange} placeholder="비밀번호"/>
             <button type="submit">{isLoading ? <Spinner/> : 'Sign In'}</button>
-            <input type="button" value="회원가입" />
+            <input type="button" value="회원가입" onClick={onSignUpClick}/>
             <div className='error-message'>{errorMessage}</div>
         </form>
     </div>
