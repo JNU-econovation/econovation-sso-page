@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Email from "../Email";
 import Member from "./Member";
 
 import Password from "./Password";
@@ -14,9 +15,7 @@ const SignUp = () => {
         <form>
             <h1>회원가입</h1>
             <Member/>
-            <h3>아이디</h3>
-            <p>아이디로 사용할 이메일을 입력하시고 중복확인 해주세요.</p>
-            <input type='text' placeholder="example@jnu.ac.kr"/><button>중복확인</button>
+            <Email />
             <Password />
             <button>회원가입</button>
         </form>
