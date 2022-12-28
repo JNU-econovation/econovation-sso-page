@@ -1,0 +1,24 @@
+label {
+    display: block;
+}
+
+h2, h3 {
+    margin : 0;
+}
+
+p {
+    margin: 0;
+}
+
+@media (max-width:800px) {
+    .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        width: 100vw;
+        background-color: white;
+    }
+
+}
