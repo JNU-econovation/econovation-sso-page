@@ -1,8 +1,8 @@
 import React from 'react';
 
 const Guest = () => {
-    return (<div>
-        게스트입니다.
+    return (<div className='guest'>
+
     </div>);
 }
 
