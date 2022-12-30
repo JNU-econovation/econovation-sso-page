@@ -1,9 +1,12 @@
-* { box-sizing: border-box;}
-html, body {
+* {
+  box-sizing: border-box;
+}
+html,
+body {
   height: 100%;
 }
 
-body{
+body {
   display: grid;
   place-items: center;
   margin: 0;

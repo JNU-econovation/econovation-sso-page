@@ -1,10 +1,10 @@
 import React from 'react';
 
 interface CardinalOptionProps {
-    value: number
+  value: number;
 }
-const CardinalOption = ({ value }:CardinalOptionProps) => {
-    return <option value={value}>{value}기</option>
+const CardinalOption = ({ value }: CardinalOptionProps) => {
+  return <option value={value}>{value}기</option>;
 };
 
 export default CardinalOption;
