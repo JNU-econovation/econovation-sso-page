@@ -22,6 +22,8 @@ const SignUp = () => {
   const [username, setUserName] = useState('');
   const [membership, setMembership] = useState('');
   const [cardinal, setCardinal] = useState('');
+  const [isValidEmail, setIsValidEmail] = useState(false);
+  const [email, setEmail] = useState('');
 
   return (
     <div className="container">
@@ -30,7 +32,7 @@ const SignUp = () => {
         <UserInfo />
         <Membership setValue={setMembership} />
         {isMember(membership, setCardinal)}
-        <Email />
+        <Email isValidEmail={isValidEmail} setIsValidEmail={setIsValidEmail} email={email} setEmail={setEmail}/>
         <Password />
         <button>회원가입</button>
       </form>
