@@ -25,16 +25,19 @@ const SignUp = () => {
   const [cardinal, setCardinal] = useState('');
   const [isValidEmail, setIsValidEmail] = useState(false);
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [isValidPassword, setIsValidPassword] = useState(false);
 
   return (
-    <div className="container">
+    <div className="container" >
       <form>
         <h1>회원가입</h1>
         <UserInfo username={username} setUserName={setUserName} isValidName={isValidName} setIsValidName={setIsValidName}/>
         <Membership setValue={setMembership} />
         {isMember(membership, setCardinal)}
         <Email isValidEmail={isValidEmail} setIsValidEmail={setIsValidEmail} email={email} setEmail={setEmail}/>
-        <Password />
+        <Password password={password} setPassword={setPassword} confirmPassword={confirmPassword} setConfirmPassword={setConfirmPassword} isValidPassword={isValidPassword} setIsValidPassword={setIsValidPassword}/>
         <button>회원가입</button>
       </form>
     </div>
