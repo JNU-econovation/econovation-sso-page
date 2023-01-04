@@ -21,18 +21,18 @@ const Login = () => {
       return;
     }
     setIsLoading(true);
+    const form = new FormData();
+    form.append('userEmail', email.value);
+    form.append('password', passwd.value);
+    form.append('redirectUrl', redirectUrl);
     axios({
       method: 'post',
       baseURL: process.env.REACT_APP_SERVER_BASE_URL,
-      url: '/api/account/login/process',
+      url: '/api/accounts/login/process',
       headers: {
         'access-control-allow-origin': '*',
       },
-      data: {
-        userEmail: email.value,
-        password: passwd.value,
-        redirectUrl: redirectUrl,
-      },
+      data: form,
     })
       .then((response) => {
         setIsLoading(false);
