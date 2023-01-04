@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { SetStateAction, useState, Dispatch } from 'react';
 
 import Email from './Email';
 import Guest from './Guest';
@@ -10,7 +10,7 @@ import './SignUp.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 
-const isMember = (member: string, setCardinal: any) => {
+const isMember = (member: string, setCardinal: Dispatch<SetStateAction<string>>) => {
   switch (member) {
     case 'member':
       return <Member setCardinal={setCardinal} />;
