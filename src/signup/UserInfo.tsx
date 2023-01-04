@@ -1,4 +1,5 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
+import ErrorBox from '../components/ErrorBox';
 interface UserInfoProps {
   username: string,
   setUserName: Dispatch<SetStateAction<string>>,
@@ -23,7 +24,7 @@ const UserInfo = ({ username, setUserName, isValidName, setIsValidName }:UserInf
     <div className="user-container">
       <h3>이름</h3>
       <input type="text" placeholder="2~50자의 한글 혹은 영어이름" value={username} onChange={onChange}/>
-      <div style={{color:'red', fontSize: '0.7rem'}}>{errorMessage}</div>
+      <ErrorBox>{errorMessage}</ErrorBox>
     </div>
   );
 };

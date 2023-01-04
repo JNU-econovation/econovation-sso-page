@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { Dispatch, SetStateAction, useState } from 'react';
+import ErrorBox from '../components/ErrorBox';
 interface EmailProps {
   isValidEmail: boolean,
   setIsValidEmail: Dispatch<SetStateAction<boolean>>,
@@ -57,7 +58,7 @@ const Email = ({ isValidEmail, setIsValidEmail, email, setEmail}:EmailProps) => 
       <h3>아이디</h3>
       <p>아이디로 사용할 이메일을 입력하시고 중복확인 해주세요.</p>
       <input type="text" placeholder="example@jnu.ac.kr" value={email} onChange={onChange}/>
-      <div style={{color:'red'}}>{errorMessage}</div>
+      <ErrorBox>{errorMessage}</ErrorBox>
       <button type="button" onClick={onClick} disabled={isValidEmail}>중복확인</button>
     </div>
   );

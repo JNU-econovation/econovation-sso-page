@@ -1,4 +1,5 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import ErrorBox from '../components/ErrorBox';
 interface PasswordProps {
   password: string,
   setPassword: Dispatch<SetStateAction<string>>,
@@ -42,17 +43,17 @@ const Password = ({ password, setPassword, confirmPassword, setConfirmPassword, 
 
   return (
     <div className="password-container">
-      <p>비밀번호 입력</p>
+      <p style={{fontWeight: 'bold'}}>비밀번호</p>
       <input
         type="password"
         placeholder="대, 소, 특수문자(!@#$%^&*), 숫자 적어도 1글자 포함, 8~50글자"
         onChange={onPasswordChange}
         value={password}
       />
-      <div style={{color:'red'}}>{passwordErrorMsg}</div>
-      <p>비밀번호 확인</p>
+      <ErrorBox>{passwordErrorMsg}</ErrorBox>
+      <p style={{fontWeight: 'bold'}}>비밀번호 확인</p>
       <input type="password" placeholder="비밀번호 확인" onChange={onConfirmPasswordChange} value={confirmPassword}/>
-      <div style={{color:'red'}}>{confirmPasswordErrorMsg}</div>
+      <ErrorBox>{confirmPasswordErrorMsg}</ErrorBox>
     </div>
   );
 };

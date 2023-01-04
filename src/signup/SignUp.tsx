@@ -9,6 +9,7 @@ import UserInfo from './UserInfo';
 import './SignUp.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
+import ErrorBox from '../components/ErrorBox';
 
 const isMember = (member: string, setCardinal: Dispatch<SetStateAction<string>>) => {
   switch (member) {
@@ -96,7 +97,7 @@ const SignUp = () => {
         <Email isValidEmail={isValidEmail} setIsValidEmail={setIsValidEmail} email={email} setEmail={setEmail}/>
         <Password password={password} setPassword={setPassword} confirmPassword={confirmPassword} setConfirmPassword={setConfirmPassword} isValidPassword={isValidPassword} setIsValidPassword={setIsValidPassword}/>
         <button type='submit'>회원가입</button>
-        <div style={{color:'red'}}>{submitErrorMsg}</div>
+        <ErrorBox>{submitErrorMsg}</ErrorBox>
       </form>
     </div>
   );
