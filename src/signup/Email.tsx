@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { Dispatch, SetStateAction, useState } from 'react';
 interface EmailProps {
   isValidEmail: boolean,
@@ -23,7 +24,32 @@ const Email = ({ isValidEmail, setIsValidEmail, email, setEmail}:EmailProps) => 
   }
 
   const onClick = () => {
-    
+    const form = new FormData();
+    form.append('userEmail', email); 
+    axios({
+      method: 'post',
+      baseURL: process.env.REACT_APP_SERVER_BASE_URL,
+      url: '/api/accounts/duplicate',
+      headers: {
+        'access-control-allow-origin': '*',
+      },
+      data: form,
+    })
+      .then((response) => {
+        const { message, status } = response.data;
+        if(status === 'CONFLICT'){
+          setErrorMessage(message);
+          setIsValidEmail(false);
+        }
+        if(status === 'OK') {
+          setIsValidEmail(true);
+          alert('중복 인증을 완료했습니다.');
+        }
+      })
+      .catch((error) => {
+          setIsValidEmail(false);
+          setErrorMessage('에러가 발생했습니다.');
+      });
   }
 
   return (
