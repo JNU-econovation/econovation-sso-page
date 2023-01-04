@@ -35,10 +35,11 @@ const Login = () => {
       data: form,
     })
       .then((response) => {
+        const { accessToken, refreshToken } = response.data;
         setIsLoading(false);
         if (response.status === 200) {
-          localStorage.setItem('accessToken', response.data.accessToken);
-          localStorage.setItem('refreshToken', response.data.refreshToken);
+          localStorage.setItem('accessToken', accessToken);
+          localStorage.setItem('refreshToken', refreshToken);
           localStorage.setItem('userEmail', email.value);
           window.location.href = redirectUrl;
         }
