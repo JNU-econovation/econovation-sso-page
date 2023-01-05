@@ -105,6 +105,10 @@
   tarnsition: all 0.375s;
 }
 
+.password-container {
+  margin: 1rem 0;
+}
+
 .login-form > button[type='submit']:hover {
   background: #000aff;
 }
