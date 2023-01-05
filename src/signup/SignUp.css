@@ -1,7 +1,8 @@
 .container {
   background-color: white;
-  padding: 5rem;
+  padding: 3rem 5rem;
   width: 100%;
+  border-radius: 10px;
 }
 
 h1,
@@ -10,20 +11,28 @@ h3 {
   margin: 0;
 }
 
+h1 {
+  padding: 1rem 0;
+}
+
+h3 {
+  padding: 0.5rem 0;
+}
+
 p {
   margin: 0;
 }
 
 .container input[type='text'] {
   border: none;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #aaa;
   width: 100%;
   padding: 0.3rem;
 }
 
 .container input[type='password'] {
   border: none;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #aaa;
   width: 100%;
   padding: 0.3rem;
 }
@@ -39,9 +48,27 @@ p {
 .container input:focus {
   border: none;
   outline: none;
-  border-bottom: 2px solid blue;
+  border-bottom: 2px solid #216ce7;
 }
 
+.container button[type='submit'] {
+  border: none;
+  outline: none;
+  background: #216ce7;
+  color: white;
+  width: 100%;
+  padding: 0.5rem 0;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.container button[type='submit']:hover {
+  background: #000aff;
+}
+
+.user-container {
+  margin: 1rem 0;
+}
 @media (max-width: 800px) {
   .container {
     display: flex;
