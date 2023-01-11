@@ -36,6 +36,7 @@ const Login = () => {
     })
       .then((response) => {
         const { accessToken, refreshToken } = response.data;
+        console.log(response);
         setIsLoading(false);
         if (response.status === 200) {
           localStorage.setItem('accessToken', accessToken);
@@ -47,7 +48,7 @@ const Login = () => {
       .catch((error) => {
         setIsLoading(false);
         setErrorMessage(
-          () => '로그인에 실패했습니다. 네트워크 환경을 확인해주세요.'
+          () => error.response.data.message ?? '로그인에 실패했습니다.'
         );
       });
   };
