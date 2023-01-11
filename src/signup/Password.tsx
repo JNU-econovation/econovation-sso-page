@@ -21,7 +21,7 @@ const Password = ({ password, confirmPassword, setIsValidPassword, userUpdate}:P
     const dispatcher:{[index:string]: any} = {
       password: {
         predicate : isPasswordFormat,
-        msg: '비밀번호 조건에 어긋나는 비밀번호 입니다.',
+        msg: '대, 소, 특수문자(!@#$%^&*), 숫자 적어도 1글자 포함, 8~50글자',
         setErrorMsg: setPasswordErrorMsg,
       }, 
       confirmPassword: {
@@ -30,13 +30,15 @@ const Password = ({ password, confirmPassword, setIsValidPassword, userUpdate}:P
         setErrorMsg: setConfirmPasswordErrorMsg,
       },
     };
+    
     userUpdate(name, value);
+    const target = dispatcher[name];
 
-    if(!dispatcher[name].predicate(value)){
-      dispatcher[name].setErrorMsg(dispatcher[name].msg);
+    if(!target.predicate(value)){
+      target.setErrorMsg(target.msg);
       return;
     }
-    dispatcher[name].setErrorMsg('');
+    target.setErrorMsg('');
     setValidInput({ ...validInput, [name]: true });
   }
 
@@ -47,7 +49,7 @@ const Password = ({ password, confirmPassword, setIsValidPassword, userUpdate}:P
   return (
     <div className="password-container">
       <div className='password'>
-        <p style={{fontWeight: 'bold'}}>비밀번호</p>
+        <h4>비밀번호</h4>
         <input
           type="password"
           placeholder="대, 소, 특수문자(!@#$%^&*), 숫자 적어도 1글자 포함, 8~50글자"
@@ -58,7 +60,7 @@ const Password = ({ password, confirmPassword, setIsValidPassword, userUpdate}:P
         <ErrorBox>{passwordErrorMsg}</ErrorBox>
       </div>
       <div className="confirm-password">
-        <p style={{fontWeight: 'bold'}}>비밀번호 확인</p>
+        <h4>비밀번호 확인</h4>
         <input type="password" placeholder="비밀번호 확인" onChange={onChange} value={confirmPassword} name="confirmPassword"/>
         <ErrorBox>{confirmPasswordErrorMsg}</ErrorBox>
       </div>
