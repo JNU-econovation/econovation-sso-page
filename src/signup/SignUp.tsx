@@ -25,7 +25,6 @@ const isMember = (member: string, setCardinal: Dispatch<SetStateAction<string>>)
 const SignUp = () => {
   const navigate = useNavigate();
   const [cardinal, setCardinal] = useState('');
-  const [userEmail, setUserEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [submitErrorMsg, setSubmitErrorMsg] = useState('');
@@ -60,13 +59,13 @@ const SignUp = () => {
         setSubmitErrorMsg('기수를 선택해주세요.');
         return;
       }
-      year = year;
+      year = user.cardinal;
     } else {
       year = '0';
     }
 
     const form = new FormData();
-    form.append('userEmail', userEmail);
+    form.append('userEmail', user.userEmail);
     form.append('year', cardinal);
     form.append('userName', user.userName);
     form.append('password', password);
@@ -95,7 +94,7 @@ const SignUp = () => {
         <UserInfo userName={user.userName} userUpdate={userUpdate} setIsValidName={setIsValidName}/>
         <Membership userUpdate={userUpdate} />
         {isMember(user.membership, setCardinal)}
-        <Email isValidEmail={isValidEmail} setIsValidEmail={setIsValidEmail} email={userEmail} setEmail={setUserEmail}/>
+        <Email isValidEmail={isValidEmail} setIsValidEmail={setIsValidEmail} userEmail={user.userEmail} userUpdate={userUpdate}/>
         <Password password={password} setPassword={setPassword} confirmPassword={confirmPassword} setConfirmPassword={setConfirmPassword} isValidPassword={isValidPassword} setIsValidPassword={setIsValidPassword}/>
         <button type='submit'>회원가입</button>
         <ErrorBox>{submitErrorMsg}</ErrorBox>
