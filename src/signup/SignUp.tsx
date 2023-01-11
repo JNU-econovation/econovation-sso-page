@@ -10,6 +10,7 @@ import './SignUp.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 import ErrorBox from '../components/ErrorBox';
+import useSignUpInput from '../hook/useSignUpInput';
 
 const isMember = (member: string, setCardinal: Dispatch<SetStateAction<string>>) => {
   switch (member) {
@@ -23,17 +24,18 @@ const isMember = (member: string, setCardinal: Dispatch<SetStateAction<string>>)
 };
 const SignUp = () => {
   const navigate = useNavigate();
-  const [username, setUserName] = useState('');
-  const [isValidName, setIsValidName] = useState(false);
   const [membership, setMembership] = useState('');
   const [cardinal, setCardinal] = useState('');
-  const [isValidEmail, setIsValidEmail] = useState(false);
-  const [email, setEmail] = useState('');
+  const [userEmail, setUserEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [isValidPassword, setIsValidPassword] = useState(false);
   const [submitErrorMsg, setSubmitErrorMsg] = useState('');
-  
+  const [isValidName, setIsValidName] = useState(false);
+  const [isValidEmail, setIsValidEmail] = useState(false);
+  const [isValidPassword, setIsValidPassword] = useState(false);
+  const [user, userUpdate] = useSignUpInput({ userName: '', membership: '', cardinal: '', userEmail:'', password: '', confirmPassword: ''});
+
+
   const onSubmit = (e:any) => {
     e.preventDefault();
 
@@ -55,19 +57,19 @@ const SignUp = () => {
     }
     let year ;
     if(membership === 'member'){
-      if(cardinal === '') {
+      if(year === '') {
         setSubmitErrorMsg('기수를 선택해주세요.');
         return;
       }
-      year = cardinal;
+      year = year;
     } else {
       year = '0';
     }
 
     const form = new FormData();
-    form.append('userEmail', email);
-    form.append('year', year);
-    form.append('userName', username);
+    form.append('userEmail', userEmail);
+    form.append('year', cardinal);
+    form.append('userName', user.userName);
     form.append('password', password);
     
     axios({
@@ -91,10 +93,10 @@ const SignUp = () => {
     <div className="container" >
       <form onSubmit={onSubmit}>
         <h1>회원가입</h1>
-        <UserInfo username={username} setUserName={setUserName} isValidName={isValidName} setIsValidName={setIsValidName}/>
+        <UserInfo userName={user.userName} userUpdate={userUpdate} setIsValidName={setIsValidName}/>
         <Membership setValue={setMembership} />
         {isMember(membership, setCardinal)}
-        <Email isValidEmail={isValidEmail} setIsValidEmail={setIsValidEmail} email={email} setEmail={setEmail}/>
+        <Email isValidEmail={isValidEmail} setIsValidEmail={setIsValidEmail} email={userEmail} setEmail={setUserEmail}/>
         <Password password={password} setPassword={setPassword} confirmPassword={confirmPassword} setConfirmPassword={setConfirmPassword} isValidPassword={isValidPassword} setIsValidPassword={setIsValidPassword}/>
         <button type='submit'>회원가입</button>
         <ErrorBox>{submitErrorMsg}</ErrorBox>
