@@ -12,10 +12,10 @@ import { useNavigate } from 'react-router';
 import ErrorBox from '../components/ErrorBox';
 import useSignUpInput from '../hook/useSignUpInput';
 
-const isMember = (member: string, setCardinal: Dispatch<SetStateAction<string>>) => {
+const isMember = (member: string, userUpdate: (property:string, newValue:string) => void ) => {
   switch (member) {
     case 'member':
-      return <Member setCardinal={setCardinal} />;
+      return <Member userUpdate={userUpdate} />;
     case 'guest':
       return <Guest />;
     default:
@@ -24,7 +24,6 @@ const isMember = (member: string, setCardinal: Dispatch<SetStateAction<string>>)
 };
 const SignUp = () => {
   const navigate = useNavigate();
-  const [cardinal, setCardinal] = useState('');
   const [submitErrorMsg, setSubmitErrorMsg] = useState('');
   const [isValidName, setIsValidName] = useState(false);
   const [isValidEmail, setIsValidEmail] = useState(false);
@@ -91,7 +90,7 @@ const SignUp = () => {
         <h1>회원가입</h1>
         <UserInfo userName={user.userName} userUpdate={userUpdate} setIsValidName={setIsValidName}/>
         <Membership userUpdate={userUpdate} />
-        {isMember(user.membership, setCardinal)}
+        {isMember(user.membership, userUpdate)}
         <Email isValidEmail={isValidEmail} setIsValidEmail={setIsValidEmail} userEmail={user.userEmail} userUpdate={userUpdate}/>
         <Password password={user.password} confirmPassword={user.confirmPassword} setIsValidPassword={setIsValidPassword} userUpdate={userUpdate}/>
         <button type='submit'>회원가입</button>
