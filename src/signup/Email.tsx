@@ -26,6 +26,10 @@ const Email = ({ isValidEmail, setIsValidEmail, userEmail, userUpdate}:EmailProp
   }
 
   const onClick = () => {
+    if(!isEmailFormat(userEmail)) {
+      alert('이메일을 다시한번 확인해주세요.');
+      return;
+    }
     const form = new FormData();
     form.append('userEmail', userEmail); 
     axios({
