@@ -1,11 +1,14 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import ErrorBox from '../components/ErrorBox';
+import { isPasswordFormat } from '../lib/FormatChecker';
+
 interface PasswordProps {
   password: string,
   confirmPassword: string,
   setIsValidPassword: Dispatch<SetStateAction<boolean>>,
   userUpdate: (property:string, newValue:string) => void,
 }
+
 const Password = ({ password, confirmPassword, setIsValidPassword, userUpdate}:PasswordProps) => {
   const [passwordErrorMsg, setPasswordErrorMsg] = useState('');
   const [confirmPasswordErrorMsg, setConfirmPasswordErrorMsg] = useState('');
@@ -14,25 +17,27 @@ const Password = ({ password, confirmPassword, setIsValidPassword, userUpdate}:P
     confirmPassword: false,
   });
 
-  const onPasswordChange = (e:any) => {
-    userUpdate(e.target.name, e.target.value);
-    const reg = /^(?=.*[!@#$%^&*])(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[A-Za-z0-9!@#$%^&*]{8,50}$/g;
-    if(!reg.test(e.target.value)){
-      setPasswordErrorMsg('비밀번호 조건에 어긋나는 비밀번호입니다.');
-      return;
-    }
-    setPasswordErrorMsg('');
-    setValidInput({...validInput, password: true });
-  }
+  const onChange = ({ target: { name, value }}:any) => {
+    const dispatcher:{[index:string]: any} = {
+      password: {
+        predicate : isPasswordFormat,
+        msg: '비밀번호 조건에 어긋나는 비밀번호 입니다.',
+        setErrorMsg: setPasswordErrorMsg,
+      }, 
+      confirmPassword: {
+        predicate: (confirmPassword:string) => password === confirmPassword,
+        msg: '비밀번호가 일치하지 않습니다.',
+        setErrorMsg: setConfirmPasswordErrorMsg,
+      },
+    };
+    userUpdate(name, value);
 
-  const onConfirmPasswordChange = (e:any) => {
-    userUpdate(e.target.name, e.target.value);
-    if(!(password === e.target.value)) {
-      setConfirmPasswordErrorMsg('비밀번호가 일치하지 않습니다.');
+    if(!dispatcher[name].predicate(value)){
+      dispatcher[name].setErrorMsg(dispatcher[name].msg);
       return;
     }
-    setConfirmPasswordErrorMsg('');
-    setValidInput({...validInput, confirmPassword: true });
+    dispatcher[name].setErrorMsg('');
+    setValidInput({ ...validInput, [name]: true });
   }
 
   useEffect(() => { 
@@ -41,18 +46,22 @@ const Password = ({ password, confirmPassword, setIsValidPassword, userUpdate}:P
 
   return (
     <div className="password-container">
-      <p style={{fontWeight: 'bold'}}>비밀번호</p>
-      <input
-        type="password"
-        placeholder="대, 소, 특수문자(!@#$%^&*), 숫자 적어도 1글자 포함, 8~50글자"
-        onChange={onPasswordChange}
-        value={password}
-        name="password"
-      />
-      <ErrorBox>{passwordErrorMsg}</ErrorBox>
-      <p style={{fontWeight: 'bold'}}>비밀번호 확인</p>
-      <input type="password" placeholder="비밀번호 확인" onChange={onConfirmPasswordChange} value={confirmPassword} name="confirmPassword"/>
-      <ErrorBox>{confirmPasswordErrorMsg}</ErrorBox>
+      <div className='password'>
+        <p style={{fontWeight: 'bold'}}>비밀번호</p>
+        <input
+          type="password"
+          placeholder="대, 소, 특수문자(!@#$%^&*), 숫자 적어도 1글자 포함, 8~50글자"
+          onChange={onChange}
+          value={password}
+          name="password"
+        />
+        <ErrorBox>{passwordErrorMsg}</ErrorBox>
+      </div>
+      <div className="confirm-password">
+        <p style={{fontWeight: 'bold'}}>비밀번호 확인</p>
+        <input type="password" placeholder="비밀번호 확인" onChange={onChange} value={confirmPassword} name="confirmPassword"/>
+        <ErrorBox>{confirmPasswordErrorMsg}</ErrorBox>
+      </div>
     </div>
   );
 };
