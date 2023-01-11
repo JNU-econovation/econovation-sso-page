@@ -1,11 +1,11 @@
 import React from 'react';
 interface MemberProps {
-  setValue: (value: string) => void;
+  userUpdate: (property:string, newValue:string) => void,
 }
 
-const Membership = ({ setValue }: MemberProps) => {
+const Membership = ({ userUpdate }: MemberProps) => {
   const onClick = (e: any) => {
-    setValue(e.target.value);
+    userUpdate(e.target.name, e.target.value)
   };
   return (
     <div className="member-classification-container">
@@ -13,7 +13,7 @@ const Membership = ({ setValue }: MemberProps) => {
       <label>
         <input
           type="radio"
-          name="classification"
+          name="membership"
           value="member"
           onClick={onClick}
         />{' '}
@@ -22,7 +22,7 @@ const Membership = ({ setValue }: MemberProps) => {
       <label>
         <input
           type="radio"
-          name="classification"
+          name="membership"
           value="guest"
           onClick={onClick}
         />{' '}

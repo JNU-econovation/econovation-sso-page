@@ -24,7 +24,6 @@ const isMember = (member: string, setCardinal: Dispatch<SetStateAction<string>>)
 };
 const SignUp = () => {
   const navigate = useNavigate();
-  const [membership, setMembership] = useState('');
   const [cardinal, setCardinal] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -47,7 +46,7 @@ const SignUp = () => {
       setSubmitErrorMsg('이메일 입력을 확인해주세요.');
       return;
     }
-    if(membership === ''){
+    if(user.membership === ''){
       setSubmitErrorMsg('회원 여부를 선택해주세요.');
       return;
     }
@@ -56,7 +55,7 @@ const SignUp = () => {
       return;
     }
     let year ;
-    if(membership === 'member'){
+    if(user.membership === 'member'){
       if(year === '') {
         setSubmitErrorMsg('기수를 선택해주세요.');
         return;
@@ -94,8 +93,8 @@ const SignUp = () => {
       <form onSubmit={onSubmit}>
         <h1>회원가입</h1>
         <UserInfo userName={user.userName} userUpdate={userUpdate} setIsValidName={setIsValidName}/>
-        <Membership setValue={setMembership} />
-        {isMember(membership, setCardinal)}
+        <Membership userUpdate={userUpdate} />
+        {isMember(user.membership, setCardinal)}
         <Email isValidEmail={isValidEmail} setIsValidEmail={setIsValidEmail} email={userEmail} setEmail={setUserEmail}/>
         <Password password={password} setPassword={setPassword} confirmPassword={confirmPassword} setConfirmPassword={setConfirmPassword} isValidPassword={isValidPassword} setIsValidPassword={setIsValidPassword}/>
         <button type='submit'>회원가입</button>
