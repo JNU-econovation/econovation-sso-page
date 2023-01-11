@@ -4,19 +4,20 @@ import ErrorBox from '../components/ErrorBox';
 interface EmailProps {
   isValidEmail: boolean,
   setIsValidEmail: Dispatch<SetStateAction<boolean>>,
-  email: string,
-  setEmail: Dispatch<SetStateAction<string>>, 
+  userEmail: string,
+  userUpdate: (property:string, newValue:string) => void,
 };
+
 const isEmailFormat = (email:string) => {
   const reg = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
   return reg.test(email);
 }
 
-const Email = ({ isValidEmail, setIsValidEmail, email, setEmail}:EmailProps) => {
+const Email = ({ isValidEmail, setIsValidEmail, userEmail, userUpdate}:EmailProps) => {
   const [errorMessage, setErrorMessage] = useState('');
   const onChange = (e: any) => {
     setIsValidEmail(false);
-    setEmail(() => e.target.value);
+    userUpdate(e.target.name, e.target.value);
     if(!isEmailFormat(e.target.value)) {
       setErrorMessage('유효하지 않은 이메일 형식입니다.');
     } else {
@@ -26,7 +27,7 @@ const Email = ({ isValidEmail, setIsValidEmail, email, setEmail}:EmailProps) => 
 
   const onClick = () => {
     const form = new FormData();
-    form.append('userEmail', email); 
+    form.append('userEmail', userEmail); 
     axios({
       method: 'post',
       baseURL: process.env.REACT_APP_SERVER_BASE_URL,
@@ -45,6 +46,7 @@ const Email = ({ isValidEmail, setIsValidEmail, email, setEmail}:EmailProps) => 
         if(status === 'OK') {
           setIsValidEmail(true);
           alert('중복 인증을 완료했습니다.');
+          setErrorMessage('');
         }
       })
       .catch((error) => {
@@ -57,7 +59,7 @@ const Email = ({ isValidEmail, setIsValidEmail, email, setEmail}:EmailProps) => 
     <div className="id-container">
       <h3>아이디</h3>
       <p>아이디로 사용할 이메일을 입력하시고 중복확인 해주세요.</p>
-      <input type="text" placeholder="example@jnu.ac.kr" value={email} onChange={onChange}/>
+      <input type="text" placeholder="example@jnu.ac.kr" value={userEmail} onChange={onChange} name="userEmail"/>
       <ErrorBox>{errorMessage}</ErrorBox>
       <button type="button" onClick={onClick} disabled={isValidEmail}>중복확인</button>
     </div>

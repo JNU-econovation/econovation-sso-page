@@ -3,11 +3,11 @@ import cardinals from '../constant/cardinals';
 import CardinalOption from '../util/CardinalOptions';
 
 interface MemberProp {
-  setCardinal: (value: string) => void;
+  userUpdate: (property:string, newValue:string) => void
 }
-const Member = ({ setCardinal }: MemberProp) => {
+const Member = ({ userUpdate }: MemberProp) => {
   const onChange = (e: any) => {
-    setCardinal(e.target.value);
+    userUpdate(e.target.name, e.target.value);
   };
   return (
     <div className="member">

@@ -2,13 +2,11 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import ErrorBox from '../components/ErrorBox';
 interface PasswordProps {
   password: string,
-  setPassword: Dispatch<SetStateAction<string>>,
   confirmPassword: string,
-  setConfirmPassword:Dispatch<SetStateAction<string>>,
-  isValidPassword: boolean,
-  setIsValidPassword: Dispatch<SetStateAction<boolean>>
+  setIsValidPassword: Dispatch<SetStateAction<boolean>>,
+  userUpdate: (property:string, newValue:string) => void,
 }
-const Password = ({ password, setPassword, confirmPassword, setConfirmPassword, isValidPassword, setIsValidPassword}:PasswordProps) => {
+const Password = ({ password, confirmPassword, setIsValidPassword, userUpdate}:PasswordProps) => {
   const [passwordErrorMsg, setPasswordErrorMsg] = useState('');
   const [confirmPasswordErrorMsg, setConfirmPasswordErrorMsg] = useState('');
   const [validInput, setValidInput] = useState({
@@ -17,7 +15,7 @@ const Password = ({ password, setPassword, confirmPassword, setConfirmPassword, 
   });
 
   const onPasswordChange = (e:any) => {
-    setPassword(() => e.target.value);
+    userUpdate(e.target.name, e.target.value);
     const reg = /^(?=.*[!@#$%^&*])(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[A-Za-z0-9!@#$%^&*]{8,50}$/g;
     if(!reg.test(e.target.value)){
       setPasswordErrorMsg('비밀번호 조건에 어긋나는 비밀번호입니다.');
@@ -28,7 +26,7 @@ const Password = ({ password, setPassword, confirmPassword, setConfirmPassword, 
   }
 
   const onConfirmPasswordChange = (e:any) => {
-    setConfirmPassword(() => e.target.value);
+    userUpdate(e.target.name, e.target.value);
     if(!(password === e.target.value)) {
       setConfirmPasswordErrorMsg('비밀번호가 일치하지 않습니다.');
       return;
@@ -49,10 +47,11 @@ const Password = ({ password, setPassword, confirmPassword, setConfirmPassword, 
         placeholder="대, 소, 특수문자(!@#$%^&*), 숫자 적어도 1글자 포함, 8~50글자"
         onChange={onPasswordChange}
         value={password}
+        name="password"
       />
       <ErrorBox>{passwordErrorMsg}</ErrorBox>
       <p style={{fontWeight: 'bold'}}>비밀번호 확인</p>
-      <input type="password" placeholder="비밀번호 확인" onChange={onConfirmPasswordChange} value={confirmPassword}/>
+      <input type="password" placeholder="비밀번호 확인" onChange={onConfirmPasswordChange} value={confirmPassword} name="confirmPassword"/>
       <ErrorBox>{confirmPasswordErrorMsg}</ErrorBox>
     </div>
   );

@@ -10,11 +10,12 @@ import './SignUp.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 import ErrorBox from '../components/ErrorBox';
+import useSignUpInput from '../hook/useSignUpInput';
 
-const isMember = (member: string, setCardinal: Dispatch<SetStateAction<string>>) => {
+const isMember = (member: string, userUpdate: (property:string, newValue:string) => void ) => {
   switch (member) {
     case 'member':
-      return <Member setCardinal={setCardinal} />;
+      return <Member userUpdate={userUpdate} />;
     case 'guest':
       return <Guest />;
     default:
@@ -23,17 +24,13 @@ const isMember = (member: string, setCardinal: Dispatch<SetStateAction<string>>)
 };
 const SignUp = () => {
   const navigate = useNavigate();
-  const [username, setUserName] = useState('');
-  const [isValidName, setIsValidName] = useState(false);
-  const [membership, setMembership] = useState('');
-  const [cardinal, setCardinal] = useState('');
-  const [isValidEmail, setIsValidEmail] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [isValidPassword, setIsValidPassword] = useState(false);
   const [submitErrorMsg, setSubmitErrorMsg] = useState('');
-  
+  const [isValidName, setIsValidName] = useState(false);
+  const [isValidEmail, setIsValidEmail] = useState(false);
+  const [isValidPassword, setIsValidPassword] = useState(false);
+  const [user, userUpdate] = useSignUpInput({ userName: '', membership: '', cardinal: '', userEmail:'', password: '', confirmPassword: ''});
+
+
   const onSubmit = (e:any) => {
     e.preventDefault();
 
@@ -45,7 +42,7 @@ const SignUp = () => {
       setSubmitErrorMsg('이메일 입력을 확인해주세요.');
       return;
     }
-    if(membership === ''){
+    if(user.membership === ''){
       setSubmitErrorMsg('회원 여부를 선택해주세요.');
       return;
     }
@@ -54,21 +51,21 @@ const SignUp = () => {
       return;
     }
     let year ;
-    if(membership === 'member'){
-      if(cardinal === '') {
+    if(user.membership === 'member'){
+      if(user.cardinal === '') {
         setSubmitErrorMsg('기수를 선택해주세요.');
         return;
       }
-      year = cardinal;
+      year = user.cardinal;
     } else {
       year = '0';
     }
 
     const form = new FormData();
-    form.append('userEmail', email);
+    form.append('userEmail', user.userEmail);
     form.append('year', year);
-    form.append('userName', username);
-    form.append('password', password);
+    form.append('userName', user.userName);
+    form.append('password', user.password);
     
     axios({
       method: 'post',
@@ -91,11 +88,11 @@ const SignUp = () => {
     <div className="container" >
       <form onSubmit={onSubmit}>
         <h1>회원가입</h1>
-        <UserInfo username={username} setUserName={setUserName} isValidName={isValidName} setIsValidName={setIsValidName}/>
-        <Membership setValue={setMembership} />
-        {isMember(membership, setCardinal)}
-        <Email isValidEmail={isValidEmail} setIsValidEmail={setIsValidEmail} email={email} setEmail={setEmail}/>
-        <Password password={password} setPassword={setPassword} confirmPassword={confirmPassword} setConfirmPassword={setConfirmPassword} isValidPassword={isValidPassword} setIsValidPassword={setIsValidPassword}/>
+        <UserInfo userName={user.userName} userUpdate={userUpdate} setIsValidName={setIsValidName}/>
+        <Membership userUpdate={userUpdate} />
+        {isMember(user.membership, userUpdate)}
+        <Email isValidEmail={isValidEmail} setIsValidEmail={setIsValidEmail} userEmail={user.userEmail} userUpdate={userUpdate}/>
+        <Password password={user.password} confirmPassword={user.confirmPassword} setIsValidPassword={setIsValidPassword} userUpdate={userUpdate}/>
         <button type='submit'>회원가입</button>
         <ErrorBox>{submitErrorMsg}</ErrorBox>
       </form>
