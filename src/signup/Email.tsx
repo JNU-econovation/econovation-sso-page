@@ -1,17 +1,14 @@
 import axios from 'axios';
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import ErrorBox from '../components/ErrorBox';
+import { isEmailFormat } from '../lib/FormatChecker';
+
 interface EmailProps {
   isValidEmail: boolean,
   setIsValidEmail: Dispatch<SetStateAction<boolean>>,
   userEmail: string,
   userUpdate: (property:string, newValue:string) => void,
 };
-
-const isEmailFormat = (email:string) => {
-  const reg = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-  return reg.test(email);
-}
 
 const Email = ({ isValidEmail, setIsValidEmail, userEmail, userUpdate}:EmailProps) => {
   const [errorMessage, setErrorMessage] = useState('');
