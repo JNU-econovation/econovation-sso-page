@@ -1,29 +1,28 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import useInput from './hook/useInput';
 import './Login.css';
 import econoLogo from './images/econo_logo.png';
 import Spinner from './util/Spinner';
 import { useNavigate } from 'react-router';
+import useInput from './hook/useInput';
 
 const Login = () => {
   const navigate = useNavigate();
-  const email = useInput();
-  const passwd = useInput();
+  const [input, inputUpdate] = useInput({email:'', pasword:''});
   const [errorMessage, setErrorMessage] = useState('');
   const [redirectUrl, setRedirectUrl] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = (e: any) => {
     e.preventDefault();
-    if (!email.value || !passwd.value) {
+    if (!input.email || !input.password) {
       setErrorMessage('아이디나 비밀번호를 정확히 입력해주세요.');
       return;
     }
     setIsLoading(true);
     const form = new FormData();
-    form.append('userEmail', email.value);
-    form.append('password', passwd.value);
+    form.append('userEmail', input.email);
+    form.append('password', input.password);
     form.append('redirectUrl', redirectUrl);
     axios({
       method: 'post',
@@ -36,12 +35,11 @@ const Login = () => {
     })
       .then((response) => {
         const { accessToken, refreshToken } = response.data;
-        console.log(response);
         setIsLoading(false);
         if (response.status === 200) {
           localStorage.setItem('accessToken', accessToken);
           localStorage.setItem('refreshToken', refreshToken);
-          localStorage.setItem('userEmail', email.value);
+          localStorage.setItem('userEmail', input.email);
           window.location.href = redirectUrl;
         }
       })
@@ -63,6 +61,10 @@ const Login = () => {
     );
   }, []);
 
+  const onChange = ({ target: { name, value } }:any) => {
+    inputUpdate(name, value);
+  }
+
   return (
     <div className="card">
       <img className="logo" src={econoLogo} alt="logo" />
@@ -70,15 +72,17 @@ const Login = () => {
       <form onSubmit={onSubmit} className="login-form">
         <input
           type="text"
-          value={email.value}
-          onChange={email.onChange}
+          value={input.email}
+          onChange={onChange}
           placeholder="아이디"
+          name="email"
         />
         <input
           type="password"
-          value={passwd.value}
-          onChange={passwd.onChange}
+          value={input.password}
+          onChange={onChange}
           placeholder="비밀번호"
+          name="password"
         />
         <button type="submit">{isLoading ? <Spinner /> : 'Sign In'}</button>
         <input type="button" value="회원가입" onClick={onSignUpClick} />

@@ -1,10 +1,17 @@
-import { useState } from 'react';
+import { useState } from "react";
 
-const useInput = () => {
-  const [value, setValue] = useState('');
-  const onChange = (e: any) => setValue(() => e.target.value);
+const useInput = (init:any) => {
+    const [value, setValue] = useState(init);
+    const update = (property:string, newValue:string) => {
+        const newState = {
+            ...value,
+            [property]: newValue,
+        };
+        console.log(newState);
+        setValue(() => newState);
+    };
 
-  return { value, onChange };
+    return [value, update];
 };
 
 export default useInput;

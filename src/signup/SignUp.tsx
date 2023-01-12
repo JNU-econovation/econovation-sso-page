@@ -1,4 +1,6 @@
-import React, { SetStateAction, useState, Dispatch } from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router';
 
 import Email from './Email';
 import Guest from './Guest';
@@ -6,11 +8,9 @@ import Member from './Member';
 import Membership from './Membership';
 import Password from './Password';
 import UserInfo from './UserInfo';
-import './SignUp.css';
-import axios from 'axios';
-import { useNavigate } from 'react-router';
 import ErrorBox from '../components/ErrorBox';
-import useSignUpInput from '../hook/useSignUpInput';
+import useInput from '../hook/useInput';
+import './SignUp.css';
 
 const isMember = (member: string, userUpdate: (property:string, newValue:string) => void ) => {
   switch (member) {
@@ -22,13 +22,14 @@ const isMember = (member: string, userUpdate: (property:string, newValue:string)
       return <></>;
   }
 };
+
 const SignUp = () => {
   const navigate = useNavigate();
   const [submitErrorMsg, setSubmitErrorMsg] = useState('');
   const [isValidName, setIsValidName] = useState(false);
   const [isValidEmail, setIsValidEmail] = useState(false);
   const [isValidPassword, setIsValidPassword] = useState(false);
-  const [user, userUpdate] = useSignUpInput({ userName: '', membership: '', cardinal: '', userEmail:'', password: '', confirmPassword: ''});
+  const [user, userUpdate] = useInput({ userName: '', membership: '', cardinal: '', userEmail:'', password: '', confirmPassword: ''});
 
 
   const onSubmit = (e:any) => {
