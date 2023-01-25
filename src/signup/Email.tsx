@@ -45,8 +45,8 @@ const Email = ({ isValidEmail, setIsValidEmail, userEmail, userUpdate}:EmailProp
           setIsValidEmail(false);
         }
         if(status === 'OK') {
-          setIsValidEmail(true);
           alert('중복 인증을 완료했습니다.');
+          setIsValidEmail(true);
           setErrorMessage('');
         }
       })
