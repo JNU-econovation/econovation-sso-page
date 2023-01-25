@@ -27,14 +27,14 @@ p {
   border: none;
   border-bottom: 1px solid #aaa;
   width: 100%;
-  padding: 0.3rem;
+  padding: 0.3rem 0;
 }
 
 .container input[type='password'] {
   border: none;
   border-bottom: 1px solid #aaa;
   width: 100%;
-  padding: 0.3rem;
+  padding: 0.3rem 0;
 }
 
 .container select {
@@ -57,7 +57,8 @@ p {
   background: #216ce7;
   color: white;
   width: 100%;
-  padding: 0.5rem 0;
+  font-size: 1.1rem;
+  padding: 1.1rem 0;
   cursor: pointer;
   border-radius: 5px;
 }
@@ -68,6 +69,34 @@ p {
 
 .user-container {
   margin: 1rem 0;
+}
+
+.member-classification-container {
+  margin: 1rem 0;
+}
+
+.member {
+  margin: 1rem 0;
+}
+
+.id-container {
+  margin: 1rem 0;
+}
+
+.password-container {
+  margin: 1rem 0;
+}
+
+.password-container h4 {
+  margin: 0;
+}
+
+.password {
+  margin-bottom: 1rem;
+}
+
+.confirm-password {
+  margin-bottom: 3rem;
 }
 @media (max-width: 800px) {
   .container {
